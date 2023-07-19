@@ -8,9 +8,17 @@ title: Welcome to the Realm of Knowledge
 # MIT License
 ---
 
-Hey there! My name is Mayank and I prefer learning hacking stuff the hard way to diversify my Knowledge.
-I am trying to document things as I learn and share it with community, Here you will find Write-ups for CTF challenges, some InfoSec articles and quick notes/Cheat sheets.
+Hey there! My name is Samson Kapere and I love learning hacking stuff the hard way to diversify my Knowledge.
+I'm a CTF Player [**@p3rf3ctr00t_ke**](https://twitter.com/p3rf3ctr00t)
+In the ever-evolving landscape of cybersecurity,I stands at the forefront, armed with an arsenal of knowledge and an unwavering commitment to excellence. I embody the perfect balance of a guardian, protecting against digital threats, and an explorer, uncovering new possibilities within the realm of CTF
 
-If you're interested in contacting me, LinkedIn and Twitter are good avenues or shoot me an email.
+<table>
+<tr>
+<td><script src="https://tryhackme.com/badge/608192"></script></td>
+<td><script src="https://www.hackthebox.eu/badge/714499"></script></td>
+</tr>
+</table>
 
-<a href="https://www.buymeacoffee.com/ColdFusionX" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+
+
+> View full profile [here](https://www.linkedin.com/in/dennis-masila-a48067160/).
