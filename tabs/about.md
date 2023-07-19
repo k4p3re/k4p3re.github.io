@@ -14,11 +14,10 @@ In the ever-evolving landscape of cybersecurity,I stands at the forefront, armed
 
 <table>
 <tr>
-<td><script src="https://tryhackme.com/badge/608192"></script></td>
-<td><script src="https://www.hackthebox.eu/badge/714499"></script></td>
+<td> <script src="https://tryhackme.com/badge/439948"></script></td>
 </tr>
 </table>
+So, fasten your seatbelts and get ready to explore the realms of technology, and security. Let's dive in and unravel the secrets of the digital world together!
 
 
-
-> View full profile [here](https://www.linkedin.com/in/dennis-masila-a48067160/).
+> View full profile [here](https://www.linkedin.com/in/samson-kapere-3aa2b71b3/).
