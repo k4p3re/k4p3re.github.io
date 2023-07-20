@@ -91,6 +91,7 @@ hydra -L fsocity.dic -p test MACHINE_IP http-post-form "/wp-login.php:log=^USER^
 hydra -l Elliot -P fsocity.dic MACHINE_IP http-post-form "/wp-login.php:log=^USER^&pwd=^PWD^:The password you entered for the username" -t 30
 ```
 ## Initial Access
+
 > Using the username and password I obtained from the bruteforce, I gained access to the site and looking through I could see the logged in user has the privileges of editing the site and this was an amazing discovery. Having editor privileges means as an attacker I can launch a reverse shell. Interesting one here.
 > I searched on the web for a php revshell script since the site has `.php` extension templates. I love visiting the pentestmonkey site for rev shell scripts 
 
