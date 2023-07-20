@@ -9,10 +9,11 @@ image: /assets/img/Posts/CybershujaaSA.png
 >The Security Analyst 2 preliminary CTF was a pretty easy and straight forward CTF that consisted of Multipe Choice Questions (MCQ), Pentest, Wireless security, Forensics and Crypto challenges.
 >To start with were the MCQs and the solutions are displayed on the below screenshots;
 
-That was pretty simple to answer, right?🥳😂
+>That was pretty simple to answer, right?🥳😂
 
-Now lets go to the interesting bit of the CTF, the pentest task.
+>Now lets go to the interesting bit of the CTF, the pentest task.
 >Upon getting the machine IP address, my first task was to do an nmap scan.
+
 ## Reconnaisance
 ```
 ┌──(k4p3r3㉿kali)-[~/Downloads/thm.tasks/CybershujaaPractice]
@@ -31,13 +32,11 @@ Nmap done: 1 IP address (1 host up) scanned in 74.41 seconds
 
 
 ```
->The scan gives us 3 ports, 2 open and 1 closed.
+>The scan gives us 3 ports, 2 open and 1 closed.Further enumeration on the given web to find content that has not been indexed i.e say the robots.txt file
 
-Further enumeration on the given web to find content that has not been indexed i.e say the robots.txt file
+>On the browser: http://MACHINE_IP/robots.txt
 
-On the browser: http://MACHINE_IP/robots.txt
-
-In the robots.txt we discover very interesting files. The *fsocity.dic* which from my guess is a dictionary file. As well we find our first key. Very impressive huuh!!
+>In the `robots.txt` we discover very interesting files. The *fsocity.dic* which from my guess is a dictionary file. As well we find our first key. Very impressive huuh!!
 
 ### Dir Fuzzing
 
