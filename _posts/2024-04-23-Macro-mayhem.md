@@ -21,13 +21,15 @@ To further analyze the file, we need to use other tools and techniques, like ins
 
 I utilzed an hex editor; you can use any editor out there to inspect the file. For my case I will use `HxD` for my analysis
 Opening our zip file in the editor, we get this display
-image: /assets/img/Posts/magik.png
+
+<img width="956" alt="magik" src="https://github.com/k4p3re/k4p3re.github.io/assets/49836387/47c2a27c-c535-4c25-886a-8f237e400d8f">
 
 The string IHDR definitely hints that this is a PNG file. IHDR (Image Header Chunk): It stores basic image information, 13-bytes long, must be the first chunk in a PNG data stream, and there must be only one file header chunk in a PNG data stream.
 
 The first 4 bytes are set to `.eCf`, a non standard header. Using any hex editor, replacing the 4 bytes with the PNG magic bytes will give us an image file. PNG magic bytes; `89 50 4E 47`
 
-image: /assets/img/Posts/magik2.png
+<img width="960" alt="magik2" src="https://github.com/k4p3re/k4p3re.github.io/assets/49836387/eb3c7f65-cdaf-4595-864a-a8fa9b18addc">
+
 Looking at the header now, we now have a file format. Save the new file as a PNG file
 
 Lets again run the `file` command against our new png file to learn more about the file
@@ -46,7 +48,9 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 ```
 
 Now lets extract our file for further analysis. Well for this one I used a GUI tools called `OpenStego` to extract the file from the image
-image: /assets/img/Posts/opensteg.png
+
+<img width="959" alt="opensteg" src="https://github.com/k4p3re/k4p3re.github.io/assets/49836387/b134f30e-802c-4dc6-993e-2d69db0e5b9e">
+
 
 This extracts our file of interest; Up for an interesting analyis journey!
 
@@ -140,14 +144,17 @@ Looking at the data stream from the beginning of the file, the MACRO stream `13`
     `Document_Open` - This run the function defined as the file gets opened
     `boaxvoebxiotqueb` - Function name which defined the functionality to be run on Document Open.
     `End Sub` - Ending the function definition.
-image: /assets/img/Posts/exec.png
+    
+<img width="945" alt="exec" src="https://github.com/k4p3re/k4p3re.github.io/assets/49836387/d82a4612-4012-49c5-8e5c-2e344099efbe">
+
 
 3. What is the name of the user-form contained within this document?
 ```
 Ans: roubhaol
 ```
 The `.frm` extension in a stream suggests that it's associated with a form object.
-image: /assets/img/Posts/form-1.png
+
+<img width="942" alt="form" src="https://github.com/k4p3re/k4p3re.github.io/assets/49836387/da047faa-f2bc-4ba0-9712-0d170521dae0">
 
 4. Which stream is storing the base64 encoded stream?
 ```
@@ -160,7 +167,9 @@ Initially, LOLBins were commonly used in a post-exploitation basis, to gain pers
 LOLBins are often Microsoft signed binaries. Such as Certutil, Windows Management Instrumentation Command-line (WMIC). They can be used for a range of attacks, including executing code, to performing file operations
 
 Taking a closer look at the encoded string, we can identify a particular string being repeated `2342772g3&*gs7712ffvs626fq`. We can try eliminating it from the payload to see its effect. We can do this by using the `Find/Replace` recipe in Cyber chef
-image: /assets/img/Posts/base64.png
+
+<img width="960" alt="base64" src="https://github.com/k4p3re/k4p3re.github.io/assets/49836387/fdab6cf7-0ded-4584-93a3-191e6fa6fe44">
+
 
 We are able to observe that this was a powershell script having a base64 encoded payload and it was stored in stream 34.
 
@@ -170,7 +179,8 @@ Ans: emotet
 ```
 For this question, one can either get the file hash upload the file on the Malware Information sharing platforms to find out more about the malware. Examples of such platforms are: VirusTotal, MalwareBazaar etc
 VT analyzes the file are shows that this is an `emotet` malware variant;
-image: /assets/img/Posts/threat.png
+
+<img width="922" alt="threat" src="https://github.com/k4p3re/k4p3re.github.io/assets/49836387/e3555c72-021a-4ec9-a243-839c8adb9f07">
 
 
 That's the challenge in nutshell. I hope you had fun peeling every layer of this challenge.
