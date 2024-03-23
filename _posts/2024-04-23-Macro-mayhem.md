@@ -3,7 +3,7 @@ title: "Macro Mayhem -  East Africa Intervasity CTF - Semis"
 date: 2024-03-23 20:55:00 +03
 categories: [VBA_Macro]
 tags: [malware analysis, macro, vba, ole, oletool ]
-image: /assets/img/Posts/(logo.png)
+image: /assets/img/Posts/logo.png
 ---
 
 ### Challenge Description:
@@ -21,13 +21,13 @@ To further analyze the file, we need to use other tools and techniques, like ins
 
 I utilzed an hex editor; you can use any editor out there to inspect the file. For my case I will use `HxD` for my analysis
 Opening our zip file in the editor, we get this display
-![alt text](magik-1.png)
+image: /assets/img/Posts/magik.png
 
 The string IHDR definitely hints that this is a PNG file. IHDR (Image Header Chunk): It stores basic image information, 13-bytes long, must be the first chunk in a PNG data stream, and there must be only one file header chunk in a PNG data stream.
 
 The first 4 bytes are set to `.eCf`, a non standard header. Using any hex editor, replacing the 4 bytes with the PNG magic bytes will give us an image file. PNG magic bytes; `89 50 4E 47`
 
-![alt text](magik2-1.png)
+image: /assets/img/Posts/magik2.png
 Looking at the header now, we now have a file format. Save the new file as a PNG file
 
 Lets again run the `file` command against our new png file to learn more about the file
@@ -46,7 +46,7 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 ```
 
 Now lets extract our file for further analysis. Well for this one I used a GUI tools called `OpenStego` to extract the file from the image
-![alt text](opensteg-1.png)
+image: /assets/img/Posts/opensteg.png
 
 This extracts our file of interest; Up for an interesting analyis journey!
 
@@ -140,14 +140,14 @@ Looking at the data stream from the beginning of the file, the MACRO stream `13`
     `Document_Open` - This run the function defined as the file gets opened
     `boaxvoebxiotqueb` - Function name which defined the functionality to be run on Document Open.
     `End Sub` - Ending the function definition.
-![alt text](exec-1.png)
+image: /assets/img/Posts/exec.png
 
 3. What is the name of the user-form contained within this document?
 ```
 Ans: roubhaol
 ```
 The `.frm` extension in a stream suggests that it's associated with a form object.
-![alt text](form-1.png)
+image: /assets/img/Posts/form-1.png
 
 4. Which stream is storing the base64 encoded stream?
 ```
@@ -160,7 +160,7 @@ Initially, LOLBins were commonly used in a post-exploitation basis, to gain pers
 LOLBins are often Microsoft signed binaries. Such as Certutil, Windows Management Instrumentation Command-line (WMIC). They can be used for a range of attacks, including executing code, to performing file operations
 
 Taking a closer look at the encoded string, we can identify a particular string being repeated `2342772g3&*gs7712ffvs626fq`. We can try eliminating it from the payload to see its effect. We can do this by using the `Find/Replace` recipe in Cyber chef
-![alt text](base64-1.png)
+image: /assets/img/Posts/base64.png
 
 We are able to observe that this was a powershell script having a base64 encoded payload and it was stored in stream 34.
 
@@ -170,7 +170,7 @@ Ans: emotet
 ```
 For this question, one can either get the file hash upload the file on the Malware Information sharing platforms to find out more about the malware. Examples of such platforms are: VirusTotal, MalwareBazaar etc
 VT analyzes the file are shows that this is an `emotet` malware variant;
-![alt text](threat-1.png)
+image: /assets/img/Posts/threat.png
 
 
 That's the challenge in nutshell. I hope you had fun peeling every layer of this challenge.
