@@ -1,10 +1,9 @@
-
 ---
 title: "Macro Mayhem -  East Africa Intervasity CTF - Semis"
 date: 2024-03-23 20:55:00 +03
 categories: [VBA_Macro]
 tags: [malware analysis, macro, vba, ole, oletool ]
-image: /assets/img/Posts/![alt text](logo-1.png)
+image: /assets/img/Posts/(logo.png)
 ---
 
 ### Challenge Description:
