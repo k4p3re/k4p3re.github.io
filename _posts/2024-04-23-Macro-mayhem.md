@@ -10,7 +10,7 @@ image: /assets/img/Posts/logo.png
 With each layer peeled back, new challenges arise, testing your skills and ingenuity as you race against time to neutralize the threat and safeguard the digital landscape from Macro Mayhem. Only those with the keenest of eyes will unravel its secrets.
 
 ## Challenge Walkthrough
-We have been provided with a zipped challenge file. Our first step would be to check at the type of file we are dealing with. Check it out with the file command:
+We have been provided with a zipped challenge file. Our first step would be to check at the type of file we are dealing with. Check it out with the `file` command:
 ```
 k4p3re@DESKTOP-DFKV1EF:/mnt/c/Users/K4p3re/OneDrive/SecurityResearch/Maseno UniCTF$ file secr3tfil3.zip
 secr3tfil3.zip: data
@@ -20,6 +20,7 @@ When the `file` command returns `data` for a file, it means that the command was
 To further analyze the file, we need to use other tools and techniques, like inspecting the content of the file manually by looking at its hex values for headers or signatures that can assist us identify it's format
 
 I utilzed an hex editor; you can use any editor out there to inspect the file. For my case I will use `HxD` for my analysis
+
 Opening our zip file in the editor, we get this display
 
 <img width="956" alt="magik" src="https://github.com/k4p3re/k4p3re.github.io/assets/49836387/47c2a27c-c535-4c25-886a-8f237e400d8f">
@@ -88,6 +89,7 @@ NOTE: There are many scripts within the oletools package that you can explore
 
 ## Questions
 1. How many streams contain macros in the document, and list them {Format:xx;00,00,00,00...}
+   
 `python3 oledump.py sample.bin`
 ```
 Ans: 13, 15, 16
@@ -134,17 +136,19 @@ k4p3re@DESKTOP-DFKV1EF:/mnt/c/Users/K4p3re/OneDrive/SecurityResearch/CTF$ python
  37:      4096 'WordDocument'
  ```
 2. Which event triggers the initiation of macro execution?
-` python3 olevba.py /mnt/c/Users/K4p3re/OneDrive/SecurityResearch/CTF/sample.bin`
+   
+`python3 olevba.py /mnt/c/Users/K4p3re/OneDrive/SecurityResearch/CTF/sample.bin`
 ```
 Ans: Document_open()
 ```
 Utilize `olevba.py` to extract source code in clear text, and detect security-related patterns such as auto-executable macros
 Looking at the data stream from the beginning of the file, the MACRO stream `13` contains the starting point of the macros from the defined subroutine:
-    `Private Sub` -  Defining the function/subroutine
-    `Document_Open` - This run the function defined as the file gets opened
-    `boaxvoebxiotqueb` - Function name which defined the functionality to be run on Document Open.
-    `End Sub` - Ending the function definition.
-    
+
+  `Private Sub` -  Defining the function/subroutine
+  `Document_Open` - This run the function defined as the file gets opened
+  `boaxvoebxiotqueb` - Function name which defined the functionality to be run on Document Open.
+  `End Sub` - Ending the function definition.
+
 <img width="945" alt="exec" src="https://github.com/k4p3re/k4p3re.github.io/assets/49836387/d82a4612-4012-49c5-8e5c-2e344099efbe">
 
 
