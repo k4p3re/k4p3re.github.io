@@ -74,6 +74,7 @@ Ans: `10`
 Given that Chrome appeared in the previous question among the established connections, you can directly filter and identify the specific connections related to Chrome. Here's how to find the Fully Qualified Domain Name (FQDN) and city
 
 *Step 1: Identify Established Connections for Chrome*
+
 Run the `windows.netstat` plugin to list all network connections and filter for those related to `Chrome` with the ESTABLISHED state:
 ```
 python3 vol.py -f memdump.mem windows.netstat | grep ESTABLISHED | grep chrome
@@ -82,11 +83,13 @@ python3 vol.py -f memdump.mem windows.netstat | grep ESTABLISHED | grep chrome
 
 
 *Step 2: Resolve IP Addresses to FQDN*
+
 For the foreign IP address listed in the output, use a tool like `nslookup` to resolve the IP address to its FQDN:
 ```
 nslookup 185.70.41.130
 ```
 *Step 3: Geolocate IP Addresses*
+
 Use a geolocation service to determine the city associated with the IP address. You can use services like `ipinfo.io` or `geoiplookup`.
 ```
 curl ipinfo.io/185.70.41.130
