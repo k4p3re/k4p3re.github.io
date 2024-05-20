@@ -21,6 +21,7 @@ Install Volatility 3: Ensure you have Volatility 3 installed. You can find the i
 ## Challenge Walkthrough
 
 1. What is the md5 hash value of the RAM image?
+   
 To determining the MD5 hash value of the provided RAM image,you need to utilize a hashing tool to compute the MD5 checksum. By executing the appropriate command (`md5sum` on Unix/Linux/macOS or `CertUtil` on Windows), they can generate the hash, which serves as a unique identifier for the file.
 
 Using the md5sum:
