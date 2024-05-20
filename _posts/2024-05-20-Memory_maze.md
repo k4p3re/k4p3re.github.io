@@ -12,7 +12,7 @@ In the ever-evolving landscape of cybersecurity, mastering the intricacies of me
 ### Challenge Description:
 Unravel the Secrets of the Seized System. The Memory Maze beckons, daring analysts to delve deeper and unlock its secrets. Let the quest begin!
 
-Challenge File can be found here.(to be added)
+Challenge File can be found here -> [(https://drive.google.com/file/d/1lE8X7XzGXQcLspKmn1ZMKg8kX4zf00IC/view?usp=drive_link)]
 
 ## Recommendation;
 Install Volatility 3: Ensure you have Volatility 3 installed. You can find the installation instructions and download it from the Volatility 3 GitHub repository.
@@ -30,13 +30,15 @@ md5sum memdump.mem
 Ans: `db2d8f1b447e14ee4b39fc34f3bc5c6a`
 
 2. Give the system time the RAM image was captured
+   
 Volatility 3 does not require you to specify a profile as it automatically detects it. However, you still need to check which OS plugins are applicable.
 Determine System Time with `windows.info` Plugin: This plugin scans the memory image and outputs detailed system information, including the current system time.
 
 ```
 python3 vol.py -f memdump.mem windows.info
 ```
-![alt text](image.png)
+![image](https://github.com/k4p3re/k4p3re.github.io/assets/49836387/2319a162-1171-458b-a941-279313c74907)
+
 
 The `System time` field in the output represents the system time at the moment the RAM image was captured.
 
@@ -67,10 +69,11 @@ This pipeline filters for established connections and then counts the number of 
 
 Ans: `10`
 
-4. Give the FQDN and city that Chrome have an established network connection with (FQDN:City) 
+4. Give the FQDN and city that Chrome have an established network connection with (FQDN:City)
+   
 Given that Chrome appeared in the previous question among the established connections, you can directly filter and identify the specific connections related to Chrome. Here's how to find the Fully Qualified Domain Name (FQDN) and city
 
-## Step 1: Identify Established Connections for Chrome
+*Step 1: Identify Established Connections for Chrome*
 Run the `windows.netstat` plugin to list all network connections and filter for those related to `Chrome` with the ESTABLISHED state:
 ```
 python3 vol.py -f memdump.mem windows.netstat | grep ESTABLISHED | grep chrome
@@ -78,12 +81,12 @@ python3 vol.py -f memdump.mem windows.netstat | grep ESTABLISHED | grep chrome
 ![chrome](https://github.com/k4p3re/k4p3re.github.io/assets/49836387/5ebf102d-f8f0-491b-928d-aa10f74806b5)
 
 
-## Step 2: Resolve IP Addresses to FQDN
+*Step 2: Resolve IP Addresses to FQDN*
 For the foreign IP address listed in the output, use a tool like `nslookup` to resolve the IP address to its FQDN:
 ```
 nslookup 185.70.41.130
 ```
-## Step 3: Geolocate IP Addresses
+*Step 3: Geolocate IP Addresses*
 Use a geolocation service to determine the city associated with the IP address. You can use services like `ipinfo.io` or `geoiplookup`.
 ```
 curl ipinfo.io/185.70.41.130
@@ -109,12 +112,14 @@ Output:
 With the resolved FQDNs and geolocated cities, all you need to do is compile the results:
 
 If you feel like going the easier route, you can utlize https://www.abuseipdb.com/ and get the information all at once;
-![image](https://github.com/k4p3re/k4p3re.github.io/assets/49836387/94f26544-aaab-4f2b-a30d-513704712d8a)
 
+
+![image](https://github.com/k4p3re/k4p3re.github.io/assets/49836387/94f26544-aaab-4f2b-a30d-513704712d8a)
 
 Ans: `protonmail.ch:Zurich`
 
 5. What is the SHA256 hash value of process memory for PID 3536?
+   
 Dump the Process Memory using `pslist` with `--dump` option:
 When using Volatility's `pslist` plugin, you can directly specify the `--dump` option to dump the memory of the process you're interested in. This saves you the step of manually extracting the PID from the pslist output and then using the memdump plugin separately.
 
@@ -134,6 +139,7 @@ Output:
 Ans: `d4904652dafb61c331de9ac22b8000f5ac0dd7d6304f051097f7a3449b3fd45a`
 
 6.  What is the complete file path and name of the most recent file opened in Notepad?
+   
 To retrieve this, you can use Volatility's `cmdline` plugin. This plugin extracts command line arguments passed to processes, this includes the Notepad process, which can contain information about the files being opened.
 Whenever you execute a command in Windows, whether it's a built-in command like `dir` or an external program like Notepad (notepad.exe), the command is first processed by `cmd.exe`. For example, when you type `notepad` in the Run dialog and press Enter, `cmd.exe` is responsible for locating the `notepad.exe` executable, parsing any arguments or parameters you provide, and then executing it.
 
@@ -148,6 +154,7 @@ From the above command, we can see that notepad opened a file called `accountNum
 Ans: `C:\Users\JOHNDO~1\AppData\Local\Temp\7zO4FB31F24\accountNum`
 
 7. Identify the process ID for the "brave.exe"
+   
 To identify the PID for the "brave.exe" process, you can utilize the `pslist` plugin. This plugin lists all running processes along with their corresponding PIDs. You can then search the output for the "brave.exe" process and note its PID.
 
 ```
@@ -157,7 +164,8 @@ Once you've found the "brave.exe" process in the output, the number in the PID c
 
 Ans: `4856`
 
-8. 
+8. For how long did the suspect use the brave browser (Provide the duration in hh:mm:ss format)
+   
 When handling this challenge, I did a different approach to investigating how long a program was being used. It was also a learning streak for me. The `userassist` plugin in volatility.
 The UserAssist key in the Windows Registry stores information about user activity related to executed programs. This includes details such as the number of times a program has been run and when it was last executed. Analyzing the UserAssist key can provide insights into user behavior and usage patterns of various programs.
 
@@ -166,13 +174,13 @@ Command used:
 python3 vol.py -f memdump.mem windows.registry.userassist 
 ```
 The userassist plugin parses the ntuser.dat hive, which will provide the actual time the Brave user was used: 
+
 ![brave](https://github.com/k4p3re/k4p3re.github.io/assets/49836387/3f75c2e0-16e9-436d-87ef-b74cbe9969d4)
 
 
 The time duration appears under the column `Focus count`
 
 Ans: `04:01:54`
-
 
 
 Until next time, fellow cyber sleuths, may your forensic trails be lined with breadcrumbs of insight and your digital adventures be filled with endless possibilities!
