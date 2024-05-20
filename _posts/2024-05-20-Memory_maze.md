@@ -6,7 +6,7 @@ tags: [forensic analysis, memory forensics ]
 image: /assets/img/Posts/logo.png
 ---
 
-### Inro
+### Intro
 In the ever-evolving landscape of cybersecurity, mastering the intricacies of memory forensics has become crucial for identifying and mitigating sophisticated threats.  This challenge is meticulously crafted to simulate real-world scenarios, pushing contestants to dive deep into volatile memory analysis, detect malicious activity, and uncover hidden artifacts. Through this exercise, I aim to foster a deeper understanding of memory forensics, promote collaborative problem-solving, and elevate the skill level of budding cybersecurity professionals.
 
 ### Challenge Description:
@@ -52,10 +52,11 @@ Here’s how to do it:
 Use the `windows.netstat` plugin to list all network connections and then use `grep` to filter for established connections.
 
 ```
-python3 vol.py -f memsump.mem windows.netstat | grep ESTABLISHED
+python3 vol.py -f memdump.mem windows.netstat | grep ESTABLISHED
 
 ```
-![alt text](established.png)
+![established](https://github.com/k4p3re/k4p3re.github.io/assets/49836387/b16ab3d8-247a-47ce-bba9-364749a558c9)
+
 Count the number of lines in the output to determine the number of established connections.
 
 To do a summary of the challenge question, this is how your final command would look like to give you a direct answer for the number of established connections:
@@ -74,7 +75,8 @@ Run the `windows.netstat` plugin to list all network connections and filter for 
 ```
 python3 vol.py -f memdump.mem windows.netstat | grep ESTABLISHED | grep chrome
 ```
-![alt text](chrome.png)
+![chrome](https://github.com/k4p3re/k4p3re.github.io/assets/49836387/5ebf102d-f8f0-491b-928d-aa10f74806b5)
+
 
 ## Step 2: Resolve IP Addresses to FQDN
 For the foreign IP address listed in the output, use a tool like `nslookup` to resolve the IP address to its FQDN:
@@ -106,6 +108,10 @@ Output:
 
 With the resolved FQDNs and geolocated cities, all you need to do is compile the results:
 
+If you feel like going the easier route, you can utlize https://www.abuseipdb.com/ and get the information all at once;
+![image](https://github.com/k4p3re/k4p3re.github.io/assets/49836387/94f26544-aaab-4f2b-a30d-513704712d8a)
+
+
 Ans: `protonmail.ch:Zurich`
 
 5. What is the SHA256 hash value of process memory for PID 3536?
@@ -122,7 +128,8 @@ Your next step is to Use a hashing tool like `sha256sum` to calculate the SHA256
 sha256sum 3536.FTK\ Imager.exe.0x400000.dmp
 ```
 Output:
-/home/kali/Pictures/sha256.png
+![sha256](https://github.com/k4p3re/k4p3re.github.io/assets/49836387/a00a3c46-4fd4-4d9c-80b8-996a98fe7d87)
+
 
 Ans: `d4904652dafb61c331de9ac22b8000f5ac0dd7d6304f051097f7a3449b3fd45a`
 
@@ -135,7 +142,8 @@ python3 vol.py -f memdump.mem windows.cmdline | grep notepad
 ```
 From the above command, we can see that notepad opened a file called `accountNum`:
 
-c:\Users\K4p3re\OneDrive\SecurityResearch\maze\notepad.png
+![established](https://github.com/k4p3re/k4p3re.github.io/assets/49836387/902023d9-ff20-4dce-8fe8-45512f2e28c5)
+
 
 Ans: `C:\Users\JOHNDO~1\AppData\Local\Temp\7zO4FB31F24\accountNum`
 
@@ -158,7 +166,8 @@ Command used:
 python3 vol.py -f memdump.mem windows.registry.userassist 
 ```
 The userassist plugin parses the ntuser.dat hive, which will provide the actual time the Brave user was used: 
-![alt text](brave.png) 
+![brave](https://github.com/k4p3re/k4p3re.github.io/assets/49836387/3f75c2e0-16e9-436d-87ef-b74cbe9969d4)
+
 
 The time duration appears under the column `Focus count`
 
@@ -168,4 +177,4 @@ Ans: `04:01:54`
 
 Until next time, fellow cyber sleuths, may your forensic trails be lined with breadcrumbs of insight and your digital adventures be filled with endless possibilities!
 
-![alt text](out.gif)
+![out](https://github.com/k4p3re/k4p3re.github.io/assets/49836387/75122a67-9097-477f-b027-53710d8c1344)
